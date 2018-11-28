@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/treant-js/1.0/Treant.css" />
+    <link href="css/style.css" rel="stylesheet"/>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#">Machine Learning Online</a>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
+
+                <span>Training Data</span>
+                <hr>
+
+                <label class="btn btn-primary btn-block" for="file_upload">
+                    <input id="file_upload" type="file" hidden>
+                    Upload File
+                </label>
+                <span class='label label-info' id="upload-file-info">No File Chosen</span>
+
+                <hr>
+                <hr>
+
+                <span>Algorithm</span>
+                <hr>
+
+                <label id="algo_select_label" for="algo_select" class="w-100">
+                    <select id="algo_select" class="form-control">
+                            <option value="c45">C4.5</option>
+                    </select>
+                </label>
+                <hr>
+                <hr>
+
+                <span>Test Options</span>
+                <hr>
+
+                <div class="radio">
+                    <label><input id="test_same_radio" type="radio" name="optradio" value="same" checked> Same as Training Set</label>
+                </div>
+                <div class="radio">
+                    <label><input id="test_split_radio" type="radio" name="optradio" value="split"> Split Test Set: </label>
+                    <label for="testPer" style="float: right"><input disabled style="width: 30px" id="testPer" /> %</label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input id="test_file_radio" type="radio" name="optradio" value="upload"> Upload Test File
+                        <input id="test_file_upload" type="file" hidden>
+                    </label>
+                    <br>
+                    <span class='label label-info' id="test_file_info">No File Chosen</span>
+                </div>
+
+                <hr>
+
+                <button class="btn btn-primary btn-block" id="train_btn" disabled>Train</button>
+                <div id="error_display"></div>
+            </nav>
+
+            <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
+                <div class="accordion" id="accordionExample">
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseData" aria-expanded="true" aria-controls="collapseData">
+                                    Data
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="collapseData" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                            <div class="card-body">
+                                <span id="pre_data_msg">Please Load Training Data from a File.</span>
+                                <div id="display_pre_data" class="table-responsive">
+                                    <table id="pre_data_table" class="table table-striped w-100">
+                                        <thead>
+                                        <tr id="pre_data_headers"></tr>
+                                        </thead>
+                                        <tbody id="pre_data_values">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingTwo">
+                            <h5 class="mb-0">
+                                <button disabled id="results_btn" class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseResults" aria-expanded="false" aria-controls="collapseResults">
+                                    Results
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="collapseResults" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                            <div class="card-body" id="results_container">
+                                <div id="results_figures"></div>
+                                <hr>
+                                <div id="results_extras"></div>
+                                <hr>
+                                <div id="results_tests"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.6.1/papaparse.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/treant-js/1.0/Treant.js"></script>
+    <script src="js/CSVReader.js"></script>
+
+    <script src="js/Algorithms/AbstractModel.js"></script>
+    <script src="js/Algorithms/C45.js"></script>
+
+    <script src="js/Constants.js"></script>
+    <script src="js/TestSet.js"></script>
+    <script src="js/Results.js"></script>
+    <script src="js/Preprocess.js"></script>
+    <script src="js/FileUploader.js"></script>
+</body>
+</html>

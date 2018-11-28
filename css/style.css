@@ -1,0 +1,71 @@
+/*
+ * Base structure
+ */
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+    padding-top: 50px;
+}
+
+/*
+ * Typography
+ */
+
+h1 {
+    margin-bottom: 20px;
+    padding-bottom: 9px;
+    border-bottom: 1px solid #eee;
+}
+
+/*
+ * Sidebar
+ */
+
+.sidebar {
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    border-right: 1px solid #eee;
+    background-color: #f7f7f7;
+}
+
+/* Sidebar navigation */
+.sidebar {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.sidebar .nav {
+    margin-bottom: 20px;
+}
+
+.sidebar .nav-item {
+    width: 100%;
+}
+
+.sidebar .nav-item + .nav-item {
+    margin-left: 0;
+}
+
+.sidebar .nav-link {
+    border-radius: 0;
+}
+
+#display_pre_data {
+    padding: 4px;
+}
+
+p.node-name {
+    border-radius: 25px;
+    border: 2px solid darkgrey;
+    padding: 4px;
+}
+
+#confusion_matrix td {
+    padding: 2px 8px;
+}
