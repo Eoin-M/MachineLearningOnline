@@ -32,21 +32,16 @@ function readFile(file, callback) {
         let contents = e.target.result;
         const fileType = file.name.split('.').pop();
 
-        for (let i = 0; i < FILE_READERS.length; i++) {
-            let reader = FILE_READERS[i];
-            if (reader.ext === fileType) {
-                let data = reader.read(contents);
-                displayErrorClear();
-                //TODO: Replace this with user choice
-                data.target = data.headers[data.headers.length - 1].attr;
-                return callback(data);
-            }
+        let data = {};
+        try {
+            data = parseData(contents, fileType);
+            displayErrorClear();
+        } catch (err) {
+            displayError(err.message);
+            return;
         }
 
-        displayError('"' + fileType + '" filetype is not supported.\n');
-        let msg = FILE_READERS.map(e => e.ext).join(', ');
-        msg += ' are supported filetypes.';
-        displayError(msg);
+        return callback(data);
     };
 
     reader.onerror = function(e) {
@@ -54,3 +49,55 @@ function readFile(file, callback) {
         console.error(e);
     };
 }
+
+function parseData(str, fileType) {
+  for (let i = 0; i < FILE_READERS.length; i++) {
+    let reader = FILE_READERS[i];
+    if (reader.ext === fileType) {
+      let data = reader.read(str);
+      //TODO: Replace this with user choice
+      data.target = data.headers[data.headers.length - 1].attr;
+      return data;
+    }
+  }
+
+  let msg = '"' + fileType + '" filetype is not supported.\n';
+  msg += FILE_READERS.map(e => e.ext).join(', ');
+  msg += ' are supported filetypes.';
+
+  //TODO: Create ParseError
+  throw new Error(msg);
+}
+
+function loadSampleFile() {
+    let filePath = $("#sample_select").val();
+
+    if (!filePath || filePath === 'default')
+        return;
+
+    $('#upload-file-info').html(filePath);
+
+    const fileType = filePath.split('.').pop();
+    filePath = './samples/' + filePath;
+
+    let result = null;
+    let xmlhttp = new XMLHttpRequest();
+
+    xmlhttp.open("GET", filePath, false);
+    xmlhttp.send();
+
+    if (xmlhttp.status === 200) {
+        result = xmlhttp.responseText;
+    }
+    try {
+        result = parseData(result, fileType);
+        displayErrorClear()
+    } catch (err) {
+        displayError(err.message);
+        return;
+    }
+
+    setData(result);
+}
+
+$("#sample_select").change(loadSampleFile);

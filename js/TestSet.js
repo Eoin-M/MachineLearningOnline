@@ -29,29 +29,51 @@ function runTestData() {
     let numCorrect = 0;
     let numIncorrect = 0;
 
+    let results = 'Test Cases: ' + testData.data.length + '\n';
+
     testData.data.forEach(function(data) {
+        results += JSON.stringify(data);
         let actual = data[testData.target];
         let predicted = globalModel.classify(data);
 
         matrix[actual].values[predicted]++;
 
+        results += ' ==> predicted: ' + predicted + '\n';
+
         if (predicted === actual)
             numCorrect++;
         else
             numIncorrect++;
+
     });
 
     let correctPer = (numCorrect / testData.data.length * 100).toFixed(2);
     let incorrectPer = (numIncorrect / testData.data.length * 100).toFixed(2);
 
     displayResultTest('=== Accuracy ===');
-    displayResultTest('Correctly Classified Instances: ' + numCorrect + ' (' + correctPer + '%)');
-    displayResultTest('Incorrectly Classified Instances: ' + numIncorrect  + ' (' + incorrectPer + '%)');
+    let correct = 'Correctly Classified Instances: ' + numCorrect + ' (' + correctPer + '%)';
+    displayResultTest(correct);
+    let incorrect = 'Incorrectly Classified Instances: ' + numIncorrect  + ' (' + incorrectPer + '%)';
+    displayResultTest(incorrect);
+
+    results += '\n' + '=== Accuracy ===' + '\n' + correct + '\n' + incorrect + '\n';
+    download('results.txt', results);
 
     displayResultTest();
 
     displayResultTest('=== Confusion Matrix ===');
     displayConfusionMatrix(matrix, outcomes);
+}
+
+function download(filename, text) {
+    $("#download_results").empty();
+
+    let element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+    element.innerHTML = 'Download Test Results';
+
+    document.getElementById('download_results').appendChild(element);
 }
 
 function splitTestData(data, perc) {

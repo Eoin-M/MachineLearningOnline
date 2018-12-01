@@ -25,6 +25,16 @@
                     <input id="file_upload" type="file" hidden>
                     Upload File
                 </label>
+
+                <hr>
+                <label id="sample_select_label" for="sample_select" class="w-100">
+                    <select id="sample_select" class="form-control">
+                        <option value="default">Sample Files</option>
+                        <option value="owls.csv">owls.csv</option>
+                        <option value="tennis.csv">tennis.csv</option>
+                    </select>
+                </label>
+
                 <span class='label label-info' id="upload-file-info">No File Chosen</span>
 
                 <hr>
@@ -63,6 +73,9 @@
                 <hr>
 
                 <button class="btn btn-primary btn-block" id="train_btn" disabled>Train</button>
+                <hr>
+                <div id="download_results"></div>
+                <hr>
                 <div id="error_display"></div>
             </nav>
 
@@ -120,7 +133,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.6.1/papaparse.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/treant-js/1.0/Treant.js"></script>
-    <script src="js/CSVReader.js"></script>
+
+    <script src="js/Parsers/CSVReader.js"></script>
 
     <script src="js/Algorithms/AbstractModel.js"></script>
     <script src="js/Algorithms/C45.js"></script>
